@@ -14,3 +14,5 @@ def menu(request):
     return render(request, 'password.html')
 def notes(request):
     return render(request, 'notes.html')
+def passwords(request):
+    return render(request, 'password.html')

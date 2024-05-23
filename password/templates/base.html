@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {% block extra_head %}{% endblock %}
-    <!-- {%include "notes.html"%} -->
+
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
@@ -37,12 +37,12 @@
                     <li>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Notes</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li><a href="/notes/">Page 1</a></li>
+                            <li><a href="{% url 'notes' %}">Page 1</a></li>
                             <li><a href="#">Page 2</a></li>
                             <li><a href="#">Page 3</a></li>
                         </ul>
                     </li>
-                    <li><a href="/notes/">Portfolio</a></li>
+                    <li><a href="{% url 'notes' %}">Portfolio</a></li>
                    
                 </ul>
 

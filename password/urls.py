@@ -5,6 +5,5 @@ from password.views import menu
 urlpatterns = [
     # path("", views.index, name="index"),
     path('menu/', menu, name='menu'),
-    # path('notes/', views.notes, name='notes'),
     
 ]
