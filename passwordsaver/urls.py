@@ -19,6 +19,9 @@ from django.urls import include, path
 from django.http import HttpResponse
 from password.views import menu
 from password.views import notes
+from password.views import signupPage
+from password.views import loginPage
+from password.views import logoutPage
 def home(request):
     return HttpResponse("Hello")
 
@@ -28,5 +31,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('menu/', menu, name='menu'),
     path('notes/', notes, name='notes'),
+    path('signup/', signupPage, name='signup'),
+    path('login/', loginPage, name='login'),
+    path('logout/', logoutPage, name='logout'),
     
 ]
