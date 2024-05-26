@@ -45,16 +45,16 @@ def menu(request):
         username = request.POST.get('username', '')  
         url = request.POST.get('url', '')  
         password = request.POST.get('pwd', '')  
-        
+        choice_text = request.POST.get('choice_text', '')
        
         if username:
-            Password.objects.create(url=url, username=username, password=password)
+            Password.objects.create(url=url, username=username, password=password,user=request.user, choice_text=choice_text)
             return redirect('menu')  
         else:
            
             pass
         
-    entries = Password.objects.all()
+    entries = Password.objects.filter(user=request.user)
     return render(request, 'password.html', {'entries': entries})
 
 def notes(request):
