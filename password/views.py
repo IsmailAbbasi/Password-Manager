@@ -18,6 +18,8 @@ def signupPage(request):
             return redirect('menu')  
     else:
         form = UserRegisterForm()
+        if request.method == 'GET':
+            form = UserRegisterForm()
     return render(request, 'signup.html', {'form': form})
 
 def loginPage(request):
