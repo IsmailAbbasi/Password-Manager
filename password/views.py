@@ -61,7 +61,9 @@ def menu(request):
 
 def notes(request):
     return render(request, 'notes.html')
-from django.shortcuts import render
 
 def home(request):
     return render(request, 'base.html')
+
+def passwordgenerator(request):
+    return render(request, 'passwordgenerator/passwordgenerator.html')

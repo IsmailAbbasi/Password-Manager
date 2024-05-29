@@ -22,6 +22,7 @@ from password.views import notes
 from password.views import signupPage
 from password.views import loginPage
 from password.views import logoutPage
+from password.views import passwordgenerator
 def home(request):
     return HttpResponse("Hello")
 
@@ -34,5 +35,6 @@ urlpatterns = [
     path('signup/', signupPage, name='signup'),
     path('login/', loginPage, name='login'),
     path('logout/', logoutPage, name='logout'),
+    path('passwordgenerator/passwordgenerator/', passwordgenerator, name='passwordgenerator'),
     
 ]
