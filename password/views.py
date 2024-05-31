@@ -39,26 +39,6 @@ def logoutPage(request):
 
         auth_logout(request)
         return redirect('login') 
-
-# def menu(request):
-#     if request.user.is_authenticated == False:
-#         return redirect('login')
-#     if request.method == "POST":
-#         username = request.POST.get('username', '')  
-#         url = request.POST.get('url', '')  
-#         password = request.POST.get('pwd', '')  
-#         choice_text = request.POST.get('choice_text', '')
-       
-#         if username:
-#             Password.objects.create(url=url, username=username, password=password,user=request.user, choice_text=choice_text)
-#             return redirect('menu')  
-#         else:
-           
-#             pass
-        
-#     entries = Password.objects.filter(user=request.user)
-#     return render(request, 'password.html', {'entries': entries})
-
 def menu(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -76,30 +56,28 @@ def menu(request):
         if username:
             Password.objects.create(url=url, username=username, password=encrypted_password.decode(), user=request.user, choice_text=choice_text)
             return redirect('menu')  
-        else:  
-           pass
-     
+       
     entries = Password.objects.filter(user=request.user)
     cipher_suite = Fernet(settings.FERNET_KEY.encode())
     decrypted_entries = []
     for entry in entries:
         try:
             decrypted_password = cipher_suite.decrypt(entry.password.encode()).decode()
-            decrypted_entry = {
+            decrypted_entries.append({
                 'url': entry.url,
                 'username': entry.username,
                 'password': decrypted_password,
-                'choice_text': entry.choice_text,
-            }
-            decrypted_entries.append(decrypted_entry)
-        except Exception:
-            decrypted_entry = {
+                'choice_text': entry.choice_text
+            })
+        except Exception as e:
+            # Handle decryption error
+            print(f"Error decrypting password for {entry.url}: {e}")
+            decrypted_entries.append({
                 'url': entry.url,
                 'username': entry.username,
-                'password': 'Decryption error',
-                'choice_text': entry.choice_text,
-            }
-            decrypted_entries.append(decrypted_entry)
+                'password': 'Error decrypting password',
+                'choice_text': entry.choice_text
+            })
 
     return render(request, 'password.html', {'entries': decrypted_entries})
 

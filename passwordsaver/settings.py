@@ -30,9 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+key_path = BASE_DIR / 'key.txt'
+with open(key_path, 'rb') as key_file:
+    FERNET_KEY = key_file.read().decode()
 
-
-FERNET_KEY = 'g7zNUuEkiK5x_7dL2BTl_NMG0kw1OPxaoOZWhP3Thok='
 
 # Application definition
 
