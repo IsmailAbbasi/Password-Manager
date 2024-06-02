@@ -5,6 +5,8 @@ from django.contrib.auth import login as auth_login, logout as auth_logout, auth
 from django.contrib.auth.forms import AuthenticationForm , UserCreationForm
 from .forms import UserRegisterForm
 from cryptography.fernet import Fernet
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 
 def signupPage(request):
     if request.method == 'POST':
@@ -89,3 +91,10 @@ def home(request):
 
 def passwordgenerator(request):
     return render(request, 'passwordgenerator/passwordgenerator.html')
+
+def passwordchange(request):
+    return render(request, 'passwordchange.html')
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'passwordchange.html'
+    success_url = reverse_lazy('password_change_done')

@@ -46,6 +46,8 @@
                                                     {% endif %}
                                                 </div>
                                                 <button type="submit" class="btn mt-4">Login</button>
+                                                <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+
                                             </form>
                                         </div>
                                     </div>
@@ -89,7 +91,7 @@
                                                         <div class="text-danger">{{ form.password2.errors }}</div>
                                                     {% endif %}
                                                 </div>
-                                                <button type="submit" class="btn mt-4">Register</button>
+                                                <button type="submit" class="btn mt-4">Register</button>                                               
                                             </form>
                                         </div>
                                     </div>
