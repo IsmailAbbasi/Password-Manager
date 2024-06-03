@@ -17,31 +17,19 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ismailabbasi118@gmail.com'
-
-EMAIL_HOST_PASSWORD = 'uerc jyjg plda qlpo'
-DEFAULT_FROM_EMAIL = 'Ismail <ismailabbasi118@gmail.com>'
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3_#8+!#-&hqasb6z4-n0ob%0ouhg$i6u_g4@)hwn!di@i7tkd6'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+try:
+    from .settings_local import *
+except ImportError:
+    raise ImportError("The settings_local.py file was not found. Make sure it exists and contains the necessary settings.")
 
 
 key_path = BASE_DIR / 'key.txt'
 with open(key_path, 'rb') as key_file:
     FERNET_KEY = key_file.read().decode()
-
 
 # Application definition
 
@@ -154,5 +142,5 @@ COMPRESS_PRECOMPILERS = (
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'menu'
 LOGOUT_REDIRECT_URL = '/login/'
