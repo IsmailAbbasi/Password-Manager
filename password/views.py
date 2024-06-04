@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm , UserCreationForm
 from .forms import UserRegisterForm
-from cryptography.fernet import Fernet
-from django.contrib.auth.views import PasswordChangeView
+from cryptography.fernet import Fernet 
+from django.contrib.auth.views import PasswordResetView
+from .forms import CustomPasswordResetForm
+from django.contrib import messages
 from django.urls import reverse_lazy
 
 def signupPage(request):
@@ -95,6 +97,19 @@ def passwordgenerator(request):
 def passwordchange(request):
     return render(request, 'passwordchange.html')
 
-class CustomPasswordChangeView(PasswordChangeView):
-    template_name = 'passwordchange.html'
-    success_url = reverse_lazy('password_change_done')
+class CustomPasswordResetView(PasswordResetView):
+    form_class = CustomPasswordResetForm
+
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
+        email = form.cleaned_data['email']
+        users = form.get_users(email)
+        if not users:
+            messages.error(self.request, 'This email address is not registered.')
+            return self.form_invalid(form)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('password_reset_done')
