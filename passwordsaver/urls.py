@@ -22,6 +22,7 @@ from password.views import notes
 from password.views import signupPage
 from password.views import loginPage
 from password.views import logoutPage
+from password.views import about
 from password.views import passwordgenerator
 from password.views import passwordchange
 from django.contrib.auth import views as auth_views
@@ -39,6 +40,7 @@ urlpatterns = [
     path('signup/', signupPage, name='signup'),
     path('login/', loginPage, name='login'),
     path('logout/', logoutPage, name='logout'),
+    path('about/', about, name='about'),
     path('passwordgenerator/passwordgenerator/', passwordgenerator, name='passwordgenerator'),
     path('passwordchange/', auth_views.PasswordChangeView.as_view(template_name='passwordchange.html'), name='passwordchange'),
     path('passwordchange/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'), name='password_change_done'),

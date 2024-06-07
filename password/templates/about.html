@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<p>This project is a password manager application built using Django. The application is designed to securely store user passwords and login credentials in an encrypted form to ensure data protection and privacy.
+
+    Features - 
+    
+    User Authentication:
+    
+    Signup and Login: Users can create an account and log in securely. Both the signup and login processes ensure that user credentials are handled safely.
+    Password Encryption: User passwords are hashed and stored securely using Django’s built-in authentication system, which employs industry-standard hashing algorithms.
+    Password Storage:
+    
+    Encrypted Passwords: The app allows users to store various passwords (e.g., for websites, applications) in an encrypted format. This ensures that even if the database is compromised, the passwords remain secure.
+    Fernet Encryption: Uses the cryptography library's Fernet symmetric encryption to encrypt and decrypt user passwords before storing them in the database.
+    Security:
+    
+    Key Management: Encryption keys are securely managed and stored in a file that is excluded from version control using .gitignore, preventing unauthorized access.
+    CSRF Protection: Implements Django’s Cross-Site Request Forgery (CSRF) protection to safeguard against CSRF attacks.
+    </p>
+    <p> Technical Skills:
+    Frontend: React.js, HTML5, CSS3, JavaScript
+    Backend: Python, Django
+    Version Control: Git, GitHub
+    Other: APIs, JSON, Bootstrap</p>
+    <p>Some hobbies :P
+        Sports, Tech, Photography
+    </p>
+    <p>These are some of the projects that I have worked upon</p>
+    <div className="projects">
+        <p>Check out my <a href="https:// izzy.fun" target="_blank" rel="noopener noreferrer">PORTFOLIO</a> <br></br> This is a real time chat Application I made using ReactJS and Firebase</p>
+        <p>Check out my <a href="https://chat.izzy.fun" target="_blank" rel="noopener noreferrer">CHAT APPLICATION</a> <br></br> This is a real time chat Application I made using ReactJS and Firebase</p>
+        <p>Check out my <a href="https://riddler-chatbot-app.onrender.com/" target="_blank" rel="noopener noreferrer">CHATBOT</a><br></br> This is chatbot I made using Django </p>
+        <p>Check out my <a href="https://netflic.netlify.app/" target="_blank" rel="noopener noreferrer">NETFLIC</a><br></br> Movie recommendation appp made by using ReactJs</p>
+        <p>Check out my <a href="https://usepopcorn-ebon.vercel.app/" target="_blank" rel="noopener noreferrer">MOVIE RATING</a> <br></br>Movie rating app made by ReactJS</p>
+    </div>
+    {%endblock%}

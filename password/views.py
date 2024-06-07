@@ -90,6 +90,8 @@ def notes(request):
 
 def home(request):
     return render(request, 'base.html')
+def about(request):
+    return render(request, 'about.html')
 
 def passwordgenerator(request):
     return render(request, 'passwordgenerator/passwordgenerator.html')
