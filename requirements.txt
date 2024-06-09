@@ -79,6 +79,7 @@ platformdirs==3.10.0
 prompt-toolkit==3.0.39
 protobuf==4.25.3
 psutil==5.9.5
+psycopg2-binary==2.9.9
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pyasn1==0.6.0
