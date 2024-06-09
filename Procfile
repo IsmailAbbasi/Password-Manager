@@ -1,1 +1,1 @@
-web unicorn host_tut.wsgi:application --log-file - 
+web: gunicorn host_tut.wsgi:application --log-file -
