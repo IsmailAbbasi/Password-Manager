@@ -19,7 +19,7 @@ def signupPage(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             auth_login(request, user)
-            return redirect('menu')  
+            return redirect('menu')   
     else:
         form = UserRegisterForm()
         if request.method == 'GET':
