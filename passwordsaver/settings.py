@@ -12,6 +12,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import environ
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env()
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='*6p&_kgit push&bp7@b913p)olycm5$xy28n0mtmun_&dwkd8p$=kxl')
+DEBUG = env('DJANGO_DEBUG', default=False)
+
+
 from pathlib import Path
 # import django_heroku
 import dj_database_url
@@ -84,7 +93,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-            'default': dj_database_url.config(conn_max_age=600)
+            'default': dj_database_url.config(conn_max_age=600),
+            'default': env.db('DATABASE_URL', default='postgres://ueq542bv838b5m:pd02786936a331249fb561ca2063270522f8716cdefb912bf73f7085af0eebb8a@c5flugvup2318r.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dcgpgt1i9n476f')
+
+
     }
 }
 
