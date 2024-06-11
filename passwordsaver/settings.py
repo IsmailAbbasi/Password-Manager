@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['keycryptor.herokuapp.com']
+ALLOWED_HOSTS = ['keycryptor.herokuapp.com','127.0.0.1','https://keycryptor-926c7cc2b1ab.herokuapp.com']
 
 try:
     from .settings_local import *
