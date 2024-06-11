@@ -39,9 +39,14 @@ except ImportError:
 
 
 key_path = BASE_DIR / 'key.txt'
-with open(key_path, 'rb') as key_file:
-    FERNET_KEY = key_file.read().decode()
+# with open(key_path, 'rb') as key_file:
+#     FERNET_KEY = key_file.read().decode()
 
+try:
+    with open(key_path, 'rb') as key_file:
+        FERNET_KEY = key_file.read().decode()
+except FileNotFoundError:
+    pass
 # Application definition
 
 INSTALLED_APPS = [
