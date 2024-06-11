@@ -34,7 +34,8 @@ ALLOWED_HOSTS = ['keycryptor.herokuapp.com','127.0.0.1',]
 try:
     from .settings_local import *
 except ImportError:
-    raise ImportError("The settings_local.py file was not found. Make sure it exists and contains the necessary settings.")
+    # raise ImportError("The settings_local.py file was not found. Make sure it exists and contains the necessary settings.")
+    pass
 
 
 key_path = BASE_DIR / 'key.txt'
