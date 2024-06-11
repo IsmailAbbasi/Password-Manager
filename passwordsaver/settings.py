@@ -38,15 +38,30 @@ except ImportError:
     pass
 
 
+# key_path = BASE_DIR / 'key.txt'
+# # with open(key_path, 'rb') as key_file:
+# #     FERNET_KEY = key_file.read().decode()
+
+# try:
+#     with open(key_path, 'rb') as key_file:
+#         FERNET_KEY = key_file.read().decode()
+# except FileNotFoundError:
+#     pass
+
 key_path = BASE_DIR / 'key.txt'
-# with open(key_path, 'rb') as key_file:
-#     FERNET_KEY = key_file.read().decode()
 
 try:
     with open(key_path, 'rb') as key_file:
         FERNET_KEY = key_file.read().decode()
 except FileNotFoundError:
-    pass
+    print("Fernet key file 'key.txt' not found. Please make sure the file exists.")
+    # Optionally, you can set a default value for FERNET_KEY or handle the absence of the key in another way
+    FERNET_KEY = None  # or any other default value you prefer
+except Exception as e:
+    print(f"An error occurred while reading the Fernet key file: {e}")
+    FERNET_KEY = None  # or any other default value you prefer
+
+
 # Application definition
 
 INSTALLED_APPS = [
