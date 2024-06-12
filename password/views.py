@@ -10,7 +10,9 @@ from .forms import CustomPasswordResetForm
 from django.contrib import messages
 from django.urls import reverse_lazy
 from cryptography.fernet import Fernet
-
+from .forms import PasswordEntryForm
+from django.shortcuts import get_object_or_404
+# from .forms import PasswordForm
 
 def encrypt_password(password):
     cipher_suite = Fernet(settings.FERNET_KEY.encode())
@@ -21,6 +23,7 @@ def decrypt_password(encrypted_password):
     cipher_suite = Fernet(settings.FERNET_KEY.encode())
     decrypted_password = cipher_suite.decrypt(encrypted_password.encode()).decode()
     return decrypted_password
+
 def signupPage(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -54,47 +57,105 @@ def logoutPage(request):
 
         auth_logout(request)
         return redirect('login') 
+
+# def menu(request):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     if request.method == "POST":
+#         username = request.POST.get('username', '')  
+#         url = request.POST.get('url', '')  
+#         password = request.POST.get('pwd', '')  
+#         choice_text = request.POST.get('choice_text', '')
+
+#         # Encrypt the password
+#         cipher_suite = Fernet(settings.FERNET_KEY.encode()) 
+#         encrypted_password = cipher_suite.encrypt(password.encode())
+
+
+#         if username:
+#             Password.objects.create(url=url, username=username, password=encrypted_password.decode(), user=request.user, choice_text=choice_text)
+#             return redirect('menu')  
+       
+#     entries = Password.objects.filter(user=request.user)
+#     cipher_suite = Fernet(settings.FERNET_KEY.encode())
+#     decrypted_entries = []
+#     for entry in entries:
+#         try:
+#             decrypted_password = cipher_suite.decrypt(entry.password.encode()).decode()
+#             decrypted_entries.append({
+#                 'url': entry.url,
+#                 'username': entry.username,
+#                 'password': decrypted_password,
+#                 'choice_text': entry.choice_text
+#             })
+#         except Exception as e:
+#             # Handle decryption error
+#             print(f"Error decrypting password for {entry.url}: {e}")
+#             decrypted_entries.append({
+#                 'url': entry.url,
+#                 'username': entry.username,
+#                 'password': 'Error decrypting password',
+#                 'choice_text': entry.choice_text
+#             })
+
+#     return render(request, 'password.html', {'entries': decrypted_entries})
 def menu(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    if request.method == "POST":
-        username = request.POST.get('username', '')  
-        url = request.POST.get('url', '')  
-        password = request.POST.get('pwd', '')  
-        choice_text = request.POST.get('choice_text', '')
 
-        # Encrypt the password
-        cipher_suite = Fernet(settings.FERNET_KEY.encode()) 
+    if request.method == "POST":
+        url = request.POST.get('url')
+        username = request.POST.get('username')
+        password = request.POST.get('pwd')
+        choice_text = request.POST.get('choice_text')
+
+        cipher_suite = Fernet(settings.FERNET_KEY.encode())
         encrypted_password = cipher_suite.encrypt(password.encode())
 
+        Password.objects.create(
+            url=url,
+            username=username,
+            password=encrypted_password.decode(),
+            user=request.user,
+            choice_text=choice_text
+        )
+        return redirect('menu')
 
-        if username:
-            Password.objects.create(url=url, username=username, password=encrypted_password.decode(), user=request.user, choice_text=choice_text)
-            return redirect('menu')  
-       
     entries = Password.objects.filter(user=request.user)
     cipher_suite = Fernet(settings.FERNET_KEY.encode())
     decrypted_entries = []
     for entry in entries:
-        try:
-            decrypted_password = cipher_suite.decrypt(entry.password.encode()).decode()
-            decrypted_entries.append({
-                'url': entry.url,
-                'username': entry.username,
-                'password': decrypted_password,
-                'choice_text': entry.choice_text
-            })
-        except Exception as e:
-            # Handle decryption error
-            print(f"Error decrypting password for {entry.url}: {e}")
-            decrypted_entries.append({
-                'url': entry.url,
-                'username': entry.username,
-                'password': 'Error decrypting password',
-                'choice_text': entry.choice_text
-            })
+        decrypted_password = cipher_suite.decrypt(entry.password.encode()).decode()
+        decrypted_entries.append({
+            'id': entry.id,
+            'url': entry.url,
+            'username': entry.username,
+            'password': decrypted_password,
+            'choice_text': entry.choice_text
+        })
 
     return render(request, 'password.html', {'entries': decrypted_entries})
+
+def edit_entry(request, entry_id):
+    entry = get_object_or_404(Password, id=entry_id, user=request.user)
+    cipher_suite = Fernet(settings.FERNET_KEY.encode())
+    if request.method == 'POST':
+        entry.url = request.POST.get('url')
+        entry.username = request.POST.get('username')
+        entry.password = cipher_suite.encrypt(request.POST.get('pwd').encode()).decode()
+        entry.choice_text = request.POST.get('choice_text')
+        entry.save()
+        return redirect('menu')
+
+    decrypted_password = cipher_suite.decrypt(entry.password.encode()).decode()
+    return render(request, 'edit_entry.html', {'entry': entry, 'password': decrypted_password})
+
+def delete_entry(request, entry_id):
+    entry = get_object_or_404(Password, id=entry_id, user=request.user)
+    if request.method == 'POST':
+        entry.delete()
+        return redirect('menu')
+    return render(request, 'delete_entry.html', {'entry': entry})
 
 def notes(request):
     return render(request, 'notes.html')

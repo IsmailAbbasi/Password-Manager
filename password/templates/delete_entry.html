@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-4 mb-4">Delete Password Entry</h1>
+            <p>Are you sure you want to delete the entry for <strong>{{ entry.url }}</strong>?</p>
+            <form action="{% url 'delete_entry' entry.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="{% url 'menu' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
