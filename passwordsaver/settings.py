@@ -48,19 +48,30 @@ except ImportError:
 # except FileNotFoundError:
 #     pass
 
-key_path = BASE_DIR / 'key.txt'
+FERNET_KEY = env('FERNET_KEY', default=None)
 
-try:
-    with open(key_path, 'rb') as key_file:
-        FERNET_KEY = key_file.read().decode()
-except FileNotFoundError:
-    print("Fernet key file 'key.txt' not found. Please make sure the file exists.")
-    # Optionally, you can set a default value for FERNET_KEY or handle the absence of the key in another way
-    FERNET_KEY = None  # or any other default value you prefer
-except Exception as e:
-    print(f"An error occurred while reading the Fernet key file: {e}")
-    FERNET_KEY = None  # or any other default value you prefer
+if FERNET_KEY is None:
+    # If the Fernet key is not found in the environment, try to read it from key.txt
+    key_path = BASE_DIR / 'key.txt'
+    if not key_path.exists():
+        print("Fernet key file 'key.txt' not found. Generating a new key.")
+        new_key = Fernet.generate_key()
+        with open(key_path, 'wb') as key_file:
+            key_file.write(new_key)
+        FERNET_KEY = new_key.decode()
+    else:
+        try:
+            with open(key_path, 'rb') as key_file:
+                FERNET_KEY = key_file.read().decode()
+        except Exception as e:
+            print(f"An error occurred while reading the Fernet key file: {e}")
+            # Handling error by generating a new key
+            new_key = Fernet.generate_key()
+            FERNET_KEY = new_key.decode()
 
+# Add a check to ensure FERNET_KEY is correctly set
+if not FERNET_KEY:
+    raise ValueError("FERNET_KEY could not be determined. Please set it in the environment or ensure key.txt exists.")
 
 # Application definition
 

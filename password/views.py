@@ -9,7 +9,18 @@ from django.contrib.auth.views import PasswordResetView
 from .forms import CustomPasswordResetForm
 from django.contrib import messages
 from django.urls import reverse_lazy
+from cryptography.fernet import Fernet
 
+
+def encrypt_password(password):
+    cipher_suite = Fernet(settings.FERNET_KEY.encode())
+    encrypted_password = cipher_suite.encrypt(password.encode())
+    return encrypted_password.decode()
+
+def decrypt_password(encrypted_password):
+    cipher_suite = Fernet(settings.FERNET_KEY.encode())
+    decrypted_password = cipher_suite.decrypt(encrypted_password.encode()).decode()
+    return decrypted_password
 def signupPage(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
