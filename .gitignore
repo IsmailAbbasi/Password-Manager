@@ -2,3 +2,5 @@ key.txt
 settings_local.py
 .netrc
 /staticfiles/
+__pycache__/
+.DS_Store
