@@ -14,6 +14,17 @@ from .forms import PasswordEntryForm
 from django.shortcuts import get_object_or_404
 # from .forms import PasswordForm
 
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+@csrf_exempt
+def test_login(request):
+    return JsonResponse({
+        "is_logged_in":request.user.is_authenticated,
+        "logged_in_username":request.user.username if request.user.is_authenticated else None
+    })
+
 def encrypt_password(password):
     cipher_suite = Fernet(settings.FERNET_KEY.encode())
     encrypted_password = cipher_suite.encrypt(password.encode())

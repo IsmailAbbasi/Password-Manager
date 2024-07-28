@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from password.views import menu
 from password.views import notes
 from password.views import signupPage
@@ -28,10 +29,13 @@ from password.views import passwordchange
 from django.contrib.auth import views as auth_views
 from password.views import CustomPasswordResetView
 from password.views import menu, edit_entry, delete_entry
+from password.views import test_login
 
 
 def home(request):
-    return HttpResponse("Hello")
+    if request.user.is_authenticated:
+        return redirect('menu')
+    return redirect('login')
 
 urlpatterns = [
     path('',home,name='home'),
@@ -53,4 +57,6 @@ urlpatterns = [
     path('password_reset/', CustomPasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),
     path('edit/<int:entry_id>/', edit_entry, name='edit_entry'),
     path('delete/<int:entry_id>/', delete_entry, name='delete_entry'), 
+
+    path('test-login/', test_login),
 ]
